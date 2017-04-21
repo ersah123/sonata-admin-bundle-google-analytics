@@ -1,5 +1,5 @@
 {
-  "name" : "ersah/ga-bundle",
+  "name" : "mis/ga-bundle",
   "description" : "Integration of Google Analytics API v4 to Sonata Admin Bundle",
   "type" : "symfony-bundle",
   "authors" : [{
@@ -7,13 +7,14 @@
     "email" : "ersah_ihlamur@hotmail.com"
   }],
   "keywords" : [
-    "test bundle"
+    "GoogleAnalytics, symfony, sonata"
   ],
   "license" : [
     "MIT"
   ],
   "require" : {
-    "php": ">=5.5.9"
+    "php": ">=5.5.9",
+    "google/apiclient": "^2.0"
   },
   "autoload" : {
     "psr-4" : {
