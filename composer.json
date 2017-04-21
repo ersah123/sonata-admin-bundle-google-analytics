@@ -1,5 +1,5 @@
 {
-  "name" : "mis/ga-bundle",
+  "name" : "ersah/ga-bundle",
   "description" : "Integration of Google Analytics API v4 to Sonata Admin Bundle",
   "type" : "symfony-bundle",
   "authors" : [{
