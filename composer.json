@@ -16,8 +16,8 @@
     "php": ">=5.5.9"
   },
   "autoload" : {
-    "psr-0" : {
-      "Ersah\\GABundle" : ""
+    "psr-4" : {
+      "Ersah\\GABundle\\" : ""
     }
   },
   "repositories" : [{
