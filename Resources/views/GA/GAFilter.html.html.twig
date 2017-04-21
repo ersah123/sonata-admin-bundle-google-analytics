@@ -1,0 +1,77 @@
+{% set fields = report.labels %}
+
+<div class="box-content">
+    <form method="GET">
+        <div class="box-body">
+            <div class="row">
+                <div class="col-sm-9">
+                    <div class="form-group clearfix date" style="display: none">
+                        <label for="" class="col-sm-3 control-label text-right">Date</label>
+                        <div class="col-sm-4">
+                            <div class="from">
+                                <div>
+                                    <label for="from">From</label>
+                                    <div>
+                                        <div class="input-group">
+                                            <input type="text" required="required" name="from" id="from" class="sonata-medium-date form-control" data-date-format="YYYY-MM-DD" value="{{ report.from }}">
+                                            <span class="input-group-addon"><span class="fa-calendar fa"></span></span>
+                                        </div>
+                                        <script type="text/javascript">
+                                            jQuery(function ($) {
+                                                $('#from').datetimepicker({"pickTime":true,"useCurrent":true,"minDate":"1\/1\/1900","maxDate":null,"showToday":true,"defaultDate":"","disabledDates":[],"enabledDates":[],"icons":{"time":"fa fa-clock-o","date":"fa fa-calendar","up":"fa fa-chevron-up","down":"fa fa-chevron-down"},"useStrict":false,"daysOfWeekDisabled":[],"collapse":true,"calendarWeeks":false,"viewMode":"days","useMinutes":false,"useSeconds":false,"language":"de"});
+                                            });
+                                        </script>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="to">To</label>
+                                    <div>
+                                        <div class="input-group">
+                                            <input type="text" required="required" name="to" id="to" class="sonata-medium-date form-control" data-date-format="YYYY-MM-DD" value="{{ report.to }}">
+                                            <span class="input-group-addon"><span class="fa-calendar fa"></span></span>
+                                        </div>
+                                        <script type="text/javascript">
+                                            jQuery(function ($) {
+                                                $('#to').datetimepicker({"pickTime":true,"useCurrent":true,"minDate":"1\/1\/1900","maxDate":null,"showToday":true,"defaultDate":"","disabledDates":[],"enabledDates":[],"icons":{"time":"fa fa-clock-o","date":"fa fa-calendar","up":"fa fa-chevron-up","down":"fa fa-chevron-down"},"useStrict":false,"daysOfWeekDisabled":[],"collapse":true,"calendarWeeks":false,"viewMode":"days","useMinutes":false,"useSeconds":false,"language":"de"});
+                                            });
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% for field in fields if field.value != 'ga:date' %}
+                        <div class="form-group clearfix {{ field.value | slice(3)}}" style="display: none">
+                            <label for="category" class="col-sm-3 control-label text-right">{{ field.label }}</label>
+                            <div class="col-sm-4">
+                                <input type="text" name="{{ field.value }}" class="form-control" disabled
+                                       value="{{ app.request.query.get(field.value) }}"
+                                >
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="col-sm-3 text-center">
+                    <button type="submit" class="btn btn-primary">
+                        Filter
+                    </button>
+                    <a href="{{ path('ga_list') }}" class="btn btn-default">
+                        Reset
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+</div>
+
+<style>
+    @media (min-width: 600px) {
+        .time-filter {
+            display: flex;
+            align-items: flex-end;
+        }
+    }
+
+</style>

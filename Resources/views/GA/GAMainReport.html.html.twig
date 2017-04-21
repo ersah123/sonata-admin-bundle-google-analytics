@@ -1,0 +1,22 @@
+{% set titles = report.main.modelData.reports[0].columnHeader.metricHeader.metricHeaderEntries %}
+{% set value = report.main.modelData.reports[0].data.rows[0].metrics[0].values %}
+
+<div class="box-header">
+    <div class="box-title">
+        Google Analiytics Main Report
+    </div>
+</div>
+<div class="box-content">
+    <table class="table table-bordered table-striped sonata-ba-list">
+        {% for index, title in titles %}
+            <tr>
+                <td>
+                    {{ title.name }}:
+                </td>
+                <td>
+                    <b>{{ value[index] | number_format(0, '', ' ') }}</b>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>

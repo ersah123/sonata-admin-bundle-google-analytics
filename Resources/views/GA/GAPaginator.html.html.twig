@@ -1,0 +1,50 @@
+{% set nextPageToken = report.event.reports[0].nextPageToken %}
+{% set rowCount = (report.event.reports[0].data.rowCount/report.listLimit) | round(0, 'ceil') %}
+{% if rowCount > 1 %}
+    <div class="box-footer">
+        <div class="text-center">
+            <ul class="pagination">
+                {% if app.request.query.get("page") %}
+                    {% for i in 1..rowCount %}
+                        <li class="{{ app.request.query.get("page") == i ? 'active' : '' }}">
+                            <a href="{{ path('ga_list',
+                            {
+                                'page': i,
+                                'nextPageToken': (report.eventListLimit)*(i-1),
+                                'from' : app.request.query.get("from"),
+                                'to' : app.request.query.get("to")
+                            }) }}">
+                                {{ i }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                {% else %}
+                    <li class="active">
+                        <a href="{{ path('ga_list',
+                        {
+                            'page': 1,
+                            'nextPageToken': 0,
+                            'from' : app.request.query.get("from"),
+                            'to' : app.request.query.get("to")
+                        }) }}">
+                            1
+                        </a>
+                    </li>
+                    {% for i in 2..rowCount %}
+                        <li class="{{ app.request.query.get("page") == i ? 'active' : '' }}">
+                            <a href="{{ path('ga_list',
+                            {
+                                'page': i,
+                                'nextPageToken': (report.eventListLimit)*(i-1),
+                                'from' : app.request.query.get("from"),
+                                'to' : app.request.query.get("to")
+                            }) }}">
+                                {{ i }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+{% endif %}

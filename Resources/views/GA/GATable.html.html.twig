@@ -1,0 +1,54 @@
+{% set rows = report.event.reports[0].data.rows %}
+{% set titles = report.labels %}
+
+{% set sort = app.request.query.get("sort") %}
+{% set sortBy = app.request.query.get("sortBy") %}
+
+{#<div class="box-header">
+    <div class="box-title">
+        Google Analytics Download Events
+    </div>
+</div>#}
+<table class="table table-bordered table-striped sonata-ba-list">
+    <thead>
+        <tr class="sonata-ba-list-field-header">
+            {% for index, title in titles %}
+                <th class="sonata-ba-list-field-header sonata-ba-list-field-header-select
+                {% if sortBy == title.value %}
+                    sonata-ba-list-field-order-active {{ sort == 'ASCENDING' ? 'sonata-ba-list-field-header-order-asc' : 'sonata-ba-list-field-header-order-desc '}}
+                {% endif %}
+             ">
+                    <a href="{{ path('ga_list',
+                    {
+                        'sort': sortBy == title.value and sort == 'ASCENDING' ? 'DESCENDING' : 'ASCENDING',
+                        'sortBy': title.value,
+                        'from' : app.request.query.get("from"),
+                        'to' : app.request.query.get("to")
+                    }) }}">
+                       {{ title.label }}
+                    </a>
+                </th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in rows %}
+            <tr>
+                {% for index, title in titles if index < (row.dimensions | length) %}
+                    <td class="sonata-ba-list-field sonata-ba-list-field-batch">
+                        {% if title.value == 'ga:date' %}
+                            {{ row.dimensions[index] | dashedDate }}
+                        {% else %}
+                            {{ row.dimensions[index] }}
+                        {% endif %}
+                    </td>
+                {% endfor %}
+                {% for value in row.metrics[0].values %}
+                    <td class="sonata-ba-list-field sonata-ba-list-field-batch">
+                        {{ value }}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

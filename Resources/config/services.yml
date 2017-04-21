@@ -1,0 +1,14 @@
+services:
+    sonata.admin.service.ga:
+        class: Ersah\GABundle\Utils\GA
+        arguments: ['%view_id%','%limit%','%from%','%to%','%sorting%', '%sortby%','%json_key_file%','%dimensions%', '%metrics%']
+    admin.ga.reports:
+        class: Ersah\GABundle\Admin\GAAdmin
+        arguments: [~, Ersah\GABundle\Entity\GA, 'ErsahGABundle:GAAdmin']
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Google Analytics, on_top: true, group: Google Analytics, icon: '<i class="fa fa-google"></i>' }
+    app.twig_extension.date:
+        class: Ersah\GABundle\Twig\DateExtension
+        public: false
+        tags:
+            - { name: twig.extension }
