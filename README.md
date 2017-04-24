@@ -7,7 +7,16 @@ To be able to use it, you have to setup a project on Google Console for Google A
   
   # Requirements
   
+  SonataAdminBundle:
+  
   https://sonata-project.org/bundles/admin/3-x/doc/getting_started/installation.html
+  
+  Add this lines to app/config/routing.yml
+  
+    _sonata_admin:
+        resource: .
+        type: sonata_admin
+        prefix: /admin
   
   # installation
 
