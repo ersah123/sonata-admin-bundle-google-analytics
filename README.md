@@ -52,6 +52,8 @@ Click check boxes items you want to use to see the possible combinations of dime
         google_analytics_json_key: "%kernel.root_dir%/../" #root of the project
         
         
+  You can see repost here: /admin/ga/list    
+        
   # Google Analytics API v4
         
   Samples : https://developers.google.com/analytics/devguides/reporting/core/v4/samples
@@ -59,3 +61,48 @@ Click check boxes items you want to use to see the possible combinations of dime
   # errors
         
   In that 403 error case, follow the link and authorize the API v4.
+  
+  # Creating API for same configuration
+  
+  Install FosRestBundle:
+  
+  http://symfony.com/doc/master/bundles/FOSRestBundle/1-setting_up_the_bundle.html
+  
+  Enable Serializer in /app/config/config.yml:
+  
+    framework:
+        ...
+        serializer: { enable_annotations: true }
+
+  and: 
+  
+    fos_rest:
+        param_fetcher_listener: true
+        body_listener:          true
+        format_listener:        true
+        view:
+            view_response_listener: force
+        body_converter:
+            enabled: false
+            validate: true
+
+
+  Add to app/config/routing.yml:
+  
+    ersah_api_ga:
+        type:         rest
+        prefix:       /api/ga
+        resource:     "@ErsahGABundle/Controller/ApiController.php"
+
+
+
+  Install JMSSerializerBundle:
+  
+  http://jmsyst.com/bundles/JMSSerializerBundle#installation
+  
+  Install NelmioApiDocBundle:
+  
+  http://symfony.com/doc/current/bundles/NelmioApiDocBundle/index.html
+  
+  
+    
