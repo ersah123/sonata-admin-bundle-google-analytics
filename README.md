@@ -5,7 +5,7 @@ It is a simple package that uses Google Analytics Api v4 to give you all the inf
    
 To be able to use it, you have to setup a project on Google Console for Google Analytics, get the json key, then configure this package by setting the path for it. You'll have to add the developer email defined into the Google Console to the GA views to authorize it, otherwise the view won't be accessible through the API.
   
-  #Requirements
+  # Requirements
   
   https://sonata-project.org/bundles/admin/3-x/doc/getting_started/installation.html
   
