@@ -24,7 +24,7 @@ add to /app/AppKernel.php :
           limit: 15 # results per page
           from: "30daysAgo" # also YYYY-MM-DD
           to: "today"       # also YYYY-MM-DD
-          sortBy: "ga:..." 
+          sortBy: "ga:totalEvents" 
           sorting: "DESCENDING"
           list:
               dimensions:

@@ -56,7 +56,7 @@ class GA
     }
 
 
-    public function getReport($nextPageToken = 0, $from = null, $to = null, $sort = null, $sortBy = null, $search)
+    public function getReport($nextPageToken = 0, $from = null, $to = null, $sort = null, $sortBy = null, $search = null)
     {
         $this->gaFrom = $from ? $from : $this->gaFrom;
         $this->gaTo = $to ? $to : $this->gaTo;
@@ -65,10 +65,11 @@ class GA
         $this->search = $search;
 
         return [
+            'status' => 200,
             'from' => (new \DateTime($this->gaFrom))->format('Y-m-d'),
             'to' => (new \DateTime($this->gaTo))->format('Y-m-d'),
             'listLimit' => $this->gaEventLimit,
-            'event' => $this->getData($nextPageToken),
+            'event' => $this->getData((string) $nextPageToken),
             'labels' =>  array_merge($this->dimensions, $this->metrics) // metrics should be at the end
         ];
     }
