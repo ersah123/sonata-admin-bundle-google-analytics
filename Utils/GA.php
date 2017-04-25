@@ -7,20 +7,21 @@ use Google_Service_AnalyticsReporting;
 
 class GA
 {
-    private $gaViewId;
-    private $gaEventLimit;
-    private $gaFrom;
-    private $gaTo;
-    private $sort;
-    private $sortBy;
-    private $search;
-    private $dimensions;
-    private $metrics;
+    protected $gaViewId;
+    protected $gaEventLimit;
+    protected $gaFrom;
+    protected $gaTo;
+    protected $sort;
+    protected $sortBy;
+    protected $search;
+    protected $dimensions;
+    protected $listMetrics;
+    protected $mainMetrics;
 
     /**
      * @var Google_Service_AnalyticsReporting
      */
-    private $analytics;
+    protected $analytics;
 
     function __construct(
         $gaViewId,
@@ -31,7 +32,8 @@ class GA
         $sortBy,
         $keyFileLocation,
         $dimensions,
-        $metrics
+        $listMetrics,
+        $mainMetrics
     ) {
         if (!file_exists($keyFileLocation)) {
             throw new \Exception(
@@ -52,68 +54,8 @@ class GA
         $this->sort = $sort;
         $this->sortBy = $sortBy;
         $this->dimensions = $dimensions;
-        $this->metrics = $metrics;
-    }
-
-
-    public function getReport($nextPageToken = 0, $from = null, $to = null, $sort = null, $sortBy = null, $search = null)
-    {
-        $this->gaFrom = $from ? $from : $this->gaFrom;
-        $this->gaTo = $to ? $to : $this->gaTo;
-        $this->sort = $sort ? $sort : $this->sort;
-        $this->sortBy = $sortBy ? $sortBy : $this->sortBy;
-        $this->search = $search;
-
-        return [
-            'status' => 200,
-            'from' => (new \DateTime($this->gaFrom))->format('Y-m-d'),
-            'to' => (new \DateTime($this->gaTo))->format('Y-m-d'),
-            'listLimit' => $this->gaEventLimit,
-            'event' => $this->getData((string) $nextPageToken),
-            'labels' =>  array_merge($this->dimensions, $this->metrics) // metrics should be at the end
-        ];
-    }
-
-    /**
-     * Returns Event data
-     *
-     * @param $nextPageToken
-     * @return \Google_Service_AnalyticsReporting_GetReportsResponse
-     */
-    private function getData($nextPageToken)
-    {
-        // Create the DateRange object.
-        $dateRange = new \Google_Service_AnalyticsReporting_DateRange();
-        $dateRange->setStartDate($this->gaFrom);
-        $dateRange->setEndDate($this->gaTo);
-
-        $metrics = $this->getMetrics();
-        $dimensions = $this->getDimensions();
-
-        // Create the ReportRequest object.
-        $request = new \Google_Service_AnalyticsReporting_ReportRequest();
-        $request->setViewId($this->gaViewId);
-        $request->setDateRanges($dateRange);
-        $request->setMetrics($metrics);
-        $request->setDimensions($dimensions);
-        $request->setPageSize($this->gaEventLimit);
-        $request->setPageToken($nextPageToken);
-
-        if($this->sortBy !== ''){
-            $ordering = $this->getSortBy();
-            $request->setOrderBys($ordering);
-        }
-
-        if($this->search){
-            $dimensionFilterClause = $this->getSearch();
-            $request->setDimensionFilterClauses($dimensionFilterClause);
-        }
-
-
-        $body = new \Google_Service_AnalyticsReporting_GetReportsRequest();
-        $body->setReportRequests(array($request));
-
-        return $this->getAnalytics()->reports->batchGet($body);
+        $this->listMetrics = $listMetrics;
+        $this->mainMetrics = $mainMetrics;
     }
 
     /**
@@ -121,7 +63,7 @@ class GA
      *
      * @return \Google_Service_AnalyticsReporting_DimensionFilterClause
      */
-    private function getSearch()
+    protected function getSearch()
     {
         $searchVal = array_values($this->search)[0];
         $searchKey = array_keys($this->search)[0];
@@ -141,7 +83,7 @@ class GA
      *
      * @return \Google_Service_AnalyticsReporting_OrderBy
      */
-    private function getSortBy()
+    protected function getSortBy()
     {
         $ordering = new \Google_Service_AnalyticsReporting_OrderBy();
         $ordering->setFieldName($this->sortBy);
@@ -156,24 +98,25 @@ class GA
      *
      * @return array
      */
-    private function getMetrics()
+    protected function getMetrics($metrics)
     {
-        $metrics = array();
-        foreach ($this->metrics as  $metric) {
-            $met = new \Google_Service_AnalyticsReporting_Metric();
-            $met->setExpression($metric['value']);
-            array_push($metrics, $met);
+        $metricsArr = array();
+        foreach ($metrics as $metric) {
+            $metObj = new \Google_Service_AnalyticsReporting_Metric();
+            $metObj->setExpression($metric['value']);
+            array_push($metricsArr, $metObj);
         }
 
-        return $metrics;
+        return $metricsArr;
     }
+
 
     /**
      * Get configured Dimensions
      *
      * @return array
      */
-    private function getDimensions()
+    protected function getDimensions()
     {
         $dimensions = array();
         foreach ($this->dimensions as  $dimension) {
@@ -188,7 +131,7 @@ class GA
     /**
      * @return Google_Service_AnalyticsReporting
      */
-    private function getAnalytics()
+    protected function getAnalytics()
     {
         return $this->analytics;
     }

@@ -22,7 +22,7 @@ class GAAdminController extends Controller
         $search = $request->query->all();
         unset($search['from'], $search['to'], $search['nextPageToken'], $search['sort'], $search['sortBy']);
 
-        $report = $this->get('sonata.admin.service.ga')
+        $report = $this->get('ersah.list.service.ga')
             ->getReport($nextPageToken, $from, $to, $sort, $sortBy, $search);
 
         return $this->render($this->admin->getTemplate('list'), array(

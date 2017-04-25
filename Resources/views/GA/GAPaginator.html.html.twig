@@ -1,5 +1,5 @@
-{% set nextPageToken = report.event.reports[0].nextPageToken %}
-{% set rowCount = (report.event.reports[0].data.rowCount/report.listLimit) | round(0, 'ceil') %}
+{% set nextPageToken = report.list.reports[0].nextPageToken %}
+{% set rowCount = (report.list.reports[0].data.rowCount/report.listLimit) | round(0, 'ceil') %}
 {% if rowCount > 1 %}
     <div class="box-footer">
         <div class="text-center">

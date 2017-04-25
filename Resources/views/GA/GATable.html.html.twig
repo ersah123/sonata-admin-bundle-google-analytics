@@ -1,4 +1,4 @@
-{% set rows = report.event.reports[0].data.rows %}
+{% set rows = report.list.reports[0].data.rows %}
 {% set titles = report.labels %}
 
 {% set sort = app.request.query.get("sort") %}

@@ -1,7 +1,10 @@
 services:
-    sonata.admin.service.ga:
-        class: Ersah\GABundle\Utils\GA
-        arguments: ['%view_id%','%limit%','%from%','%to%','%sorting%', '%sortby%','%json_key_file%','%dimensions%', '%metrics%']
+    ersah.list.service.ga:
+        class: Ersah\GABundle\Utils\GAList
+        arguments: ['%view_id%','%limit%','%from%','%to%','%sorting%', '%sortby%','%json_key_file%','%dimensions%', '%listMetrics%','%mainMetrics%']
+    ersah.main.service.ga:
+        class: Ersah\GABundle\Utils\GAMain
+        arguments: ['%view_id%','%limit%','%from%','%to%','%sorting%', '%sortby%','%json_key_file%','%dimensions%', '%listMetrics%','%mainMetrics%']
     admin.ga.reports:
         class: Ersah\GABundle\Admin\GAAdmin
         arguments: [~, Ersah\GABundle\Entity\GA, 'ErsahGABundle:GAAdmin']
@@ -12,3 +15,11 @@ services:
         public: false
         tags:
             - { name: twig.extension }
+    ersah.block.service.ga:
+        class: Ersah\GABundle\Block\GABlock
+        arguments:
+            - ersah.block.service.ga
+            - "@templating"
+            - '@ersah.main.service.ga'
+        tags:
+            - { name: sonata.block }

@@ -117,5 +117,34 @@ Click check boxes items you want to use to see the possible combinations of dime
   
   http://symfony.com/doc/current/bundles/NelmioApiDocBundle/index.html
   
+  You can see API endpoints and documentations in /api/doc
   
-    
+  # Bonus: Use Sonata Block Bundle for Main report
+  
+  In app/config/config.yml
+  
+    ersah_ga:
+    ...
+        main:
+            metrics:
+                - { value: 'ga:sessions', label: 'Sessions' }
+                - { value: 'ga:bounceRate', label: 'Bounce Rate' }
+                - { value: 'ga:avgTimeOnPage', label: 'Average Time On Page' }
+                - { value: 'ga:pageviewsPerSession', label: 'Page Views Per Session' }
+                - { value: 'ga:percentNewVisits', label: 'Percent New Visits' }
+                - { value: 'ga:pageviews', label: 'Page Views' }
+                - { value: 'ga:avgPageLoadTime', label: 'Average Page Load Time' }
+  
+  In app/config/config.yml
+  
+    sonata_admin:
+        dashboard:
+            blocks:
+                -
+                    position: left
+                    type: sonata.admin.block.admin_list
+                -
+                    position: right
+                    type: ersah.block.service.ga  
+  
+  You can so your GA block on your /admin/dashboard

@@ -21,7 +21,7 @@ class ApiController extends FOSRestController
      *
      * @ApiDoc(
      *   resource = true,
-     *   description="Returns Google Analytics report",
+     *   description="Returns Google Analytics list report",
      *   statusCodes = {
      *     200 = "Returned when successful"
      *   }
@@ -40,7 +40,7 @@ class ApiController extends FOSRestController
      *
      * @return Mixed
      */
-    public function getReportAction(ParamFetcherInterface $paramFetcher)
+    public function getListReportAction(ParamFetcherInterface $paramFetcher)
     {
         $nextPageToken = $paramFetcher->get('nextPageToken');
         $from = $paramFetcher->get('from');
@@ -49,7 +49,27 @@ class ApiController extends FOSRestController
         $sortBy = $paramFetcher->get('sortBy');
         $search = $paramFetcher->get('search');
 
-        return $this->get('sonata.admin.service.ga')
+        return $this->get('ersah.list.service.ga')
             ->getReport($nextPageToken, $from, $to, $sort, $sortBy, $search);
+    }
+
+
+    /**
+     * @ApiDoc(
+     *   resource = true,
+     *   description="Returns Google Analytics main report",
+     *   statusCodes = {
+     *     200 = "Returned when successful"
+     *   }
+     * )
+     *
+     * @View()
+     *
+     * @return mixed
+     */
+    public function getMainReportAction()
+    {
+        return $this->get('ersah.main.service.ga')
+            ->getMainReport();
     }
 }

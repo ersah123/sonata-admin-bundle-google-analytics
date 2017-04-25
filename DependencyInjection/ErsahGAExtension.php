@@ -31,7 +31,8 @@ class ErsahGAExtension extends Extension
         $container->setParameter('from', $config['from']);
         $container->setParameter('to', $config['to']);
         $container->setParameter('dimensions', $config['list']['dimensions']);
-        $container->setParameter('metrics', $config['list']['metrics']);
+        $container->setParameter('listMetrics', $config['list']['metrics']);
+        $container->setParameter('mainMetrics', $config['main']['metrics']);
         $container->setParameter('sortBy', $config['sortBy']);
         $container->setParameter('sorting', $config['sorting']);
     }

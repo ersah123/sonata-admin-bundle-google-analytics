@@ -1,0 +1,31 @@
+{% extends sonata_block.templates.block_base %}
+{% set titles = report.labels %}
+{% set values = report.mainReport.modelData.reports[0].data.rows[0].metrics[0].values %}
+
+{% block block %}
+    <div class="col-xs-12 col-md-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-title">
+                    <h3 class="box-title">Google Analiytics Main Report</h3>
+                </div>
+            </div>
+            <div class="box-body table-responsive no-padding">
+                <div class="box-content">
+                    <table class="table table-bordered table-striped sonata-ba-list">
+                        {% for index, title in titles %}
+                            <tr>
+                                <td>
+                                    {{ title.label }}:
+                                </td>
+                                <td>
+                                    <b>{{ values[index] | number_format(0, '', ' ') }}</b>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
