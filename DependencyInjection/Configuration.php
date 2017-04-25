@@ -22,13 +22,14 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('google_analytics_json_key')->end()
-                ->scalarNode('view_id')->end()
-                ->scalarNode('limit')->end()
-                ->scalarNode('from')->end()
-                ->scalarNode('to')->end()
+                ->scalarNode('google_analytics_json_key')->isRequired()->end()
+                ->scalarNode('view_id')->isRequired()->end()
+                ->scalarNode('limit')->isRequired()->defaultValue('15')->end()
+                ->scalarNode('from')->isRequired()->defaultValue('30daysAgo')->end()
+                ->scalarNode('to')->isRequired()->defaultValue('today')->end()
 
                 ->arrayNode('list')
+                    ->isRequired()
                     ->children()
                         ->arrayNode('dimensions')
                             ->prototype('array')
